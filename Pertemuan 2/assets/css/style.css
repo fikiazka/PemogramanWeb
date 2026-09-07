@@ -238,7 +238,7 @@ footer {
         margin-top: 1rem;
     }
 
-    .nav-toggle:checked ~ nav {
+    .nav-toggle:checked~nav {
         display: block;
     }
 
@@ -263,4 +263,29 @@ footer {
     main {
         max-width: 1200px;
     }
+}
+
+/* ===== Login ===== */
+.login-section {
+    max-width: 500px;
+    margin: 4rem auto;
+}
+
+.login-section h2 {
+    text-align: center;
+}
+
+.login-section form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.login-section form button {
+    display: block;
+    margin: 1rem auto 0;
+}
+
+.login-section>p {
+    text-align: center;
+    margin-top: 1rem;
 }
