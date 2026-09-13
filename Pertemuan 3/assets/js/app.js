@@ -37,28 +37,22 @@ function updateRowCounter() {
 // ===== Konfirmasi hapus =====
 
 function initHapusConfirm() {
-    document.querySelectorAll(".btn-hapus").forEach(function (btn) {
-
-        btn.addEventListener("click", function () {
-
-            const row = btn.closest("tr");
-
-            if (!row) return;
-
-            const nama = row.querySelector("td")
-                ? row.querySelector("td").textContent
-                : "data ini";
-
-            const yakin = confirm(
-                'Yakin ingin menghapus "' + nama + '"?'
-            );
-
-            if (yakin) {
-                row.remove();
-
-                updateRowCounter();
-            }
-        });
+    document.addEventListener("click", function (e) {
+        console.log(e.target);
+        const btn = e.target.closest(".btn-hapus");
+        if (!btn) return;
+        const row = btn.closest("tr");
+        if (!row) return;
+        const nama = row.querySelector("td")
+            ? row.querySelector("td").textContent
+            : "data ini";
+        const yakin = confirm(
+            'Yakin ingin menghapus "' + nama + '"?'
+        );
+        if (yakin) {
+            row.remove();
+            updateRowCounter();
+        }
     });
 }
 
