@@ -1,11 +1,19 @@
 <?php
 $page_title = "Daftar Anggota";
 include __DIR__ . '/../includes/header.php';
+require __DIR__ . '/../includes/koneksi.php';
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
-$daftarAnggota =
-    $_SESSION['anggota'] ?? [];
+
+// ambil data dari database
+$stmt = $pdo->query("
+    SELECT *
+    FROM anggota
+    ORDER BY id DESC
+");
+$daftarAnggota = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <section>
     <h2>Daftar Anggota</h2>
     <?php if ($flash): ?>
@@ -53,41 +61,23 @@ $daftarAnggota =
                     ): ?>
                         <tr>
                             <td>
-                                <?php
-                                echo htmlspecialchars(
-                                    $anggota['no_anggota'] ?? ''
-                                );
-                                ?>
+                                <?php echo htmlspecialchars($anggota['no_anggota']); ?>
                             </td>
+
                             <td>
-                                <?php
-                                echo htmlspecialchars(
-                                    $anggota['nama'] ?? ''
-                                );
-                                ?>
+                                <?php echo htmlspecialchars($anggota['nama']); ?>
                             </td>
+
                             <td>
-                                <?php
-                                echo htmlspecialchars(
-                                    $anggota['alamat'] ?? ''
-                                );
-                                ?>
+                                <?php echo htmlspecialchars($anggota['alamat'] ?? ''); ?>
                             </td>
+
                             <td>
-                                <?php
-                                echo htmlspecialchars(
-                                    $anggota['no_hp'] ?? ''
-                                );
-                                ?>
+                                <?php echo htmlspecialchars($anggota['no_hp'] ?? ''); ?>
                             </td>
-                            <td>
-                                <button type="button">
-                                    Edit
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn-hapus"
-                                >
+                             <td>
+                                <button type="button">Edit</button>
+                                <button type="button" class="btn-hapus">
                                     Hapus
                                 </button>
                             </td>

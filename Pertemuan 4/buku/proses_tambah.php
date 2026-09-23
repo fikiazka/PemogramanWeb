@@ -1,13 +1,10 @@
 <?php
 session_start();
 
-$judul = trim(
-    $_POST['judul'] ?? ''
-);
+require __DIR__ . '/../includes/koneksi.php';
 
-$pengarang = trim(
-    $_POST['pengarang'] ?? ''
-);
+$judul = trim($_POST['judul'] ?? '');
+$pengarang = trim($_POST['pengarang'] ?? '');
 $tahun = $_POST['tahun'] ?? '';
 $isbn = trim($_POST['isbn'] ?? '');
 $stok = $_POST['stok'] ?? '';
@@ -32,6 +29,11 @@ if (
 ) {
     $errors[] =
         "Tahun harus di antara 1900-2026.";
+}
+if ($tahun === '') {
+    $errors[] = "Tahun wajib diisi.";
+} elseif (!ctype_digit($tahun) || (int) $tahun < 1900 || (int) $tahun > 2026) {
+    $errors[] = "Tahun harus berupa angka antara 1900 sampai 2026.";
 }
 
 if ($isbn === '') {
@@ -68,27 +70,44 @@ if (!empty($errors)) {
     exit;
 }
 
-if (!isset($_SESSION['buku'])) {
+// SIMPAN KE DATABASE 
+try {
 
-    $_SESSION['buku'] = [];
+    $stmt = $pdo->prepare("
+        INSERT INTO buku
+            (judul, pengarang, tahun, isbn, stok, kategori)
+        VALUES
+            (:judul, :pengarang, :tahun, :isbn, :stok, :kategori)
+        RETURNING id
+    ");
 
+    $stmt->execute([
+        ':judul' => $judul,
+        ':pengarang' => $pengarang,
+        ':tahun' => (int) $tahun,
+        ':isbn' => $isbn,
+        ':stok' => (int) $stok,
+        ':kategori' => $kategori
+    ]);
+
+    $id = $stmt->fetchColumn();
+
+    $_SESSION['flash'] = [
+        'type' => 'success',
+        'pesan' => 'Buku berhasil ditambahkan.'
+    ];
+
+    header('Location: list.php');
+    exit;
+
+} catch (PDOException $e) {
+
+    $_SESSION['flash'] = [
+        'type' => 'error',
+        'pesan' => 'Gagal menambahkan buku: ' . $e->getMessage()
+    ];
+
+    header('Location: tambah.php');
+    exit;
 }
-
-$_SESSION['buku'][] = [
-    'judul' => $judul,
-    'pengarang' => $pengarang,
-    'tahun' => (int) $tahun,
-    'stok' => (int) $stok,
-    'kategori' => $kategori
-];
-
-$_SESSION['flash'] = [
-    'type' => 'success',
-    'pesan' =>
-        'Buku berhasil ditambahkan.'
-];
-header(
-    'Location: list.php'
-);
-exit;
 ?>
