@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__ . '/../auth/auth.php';
 $page_title = "Edit Anggota";
 
 include __DIR__ . '/../includes/header.php';

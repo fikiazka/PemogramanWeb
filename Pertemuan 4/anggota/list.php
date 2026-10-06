@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__ . '/../auth/auth.php';
 $page_title = "Daftar Anggota";
 
 include __DIR__ . '/../includes/header.php';
@@ -132,27 +132,29 @@ $totalPages = max(
                                     Edit
                                 </a>
 
-                                <form
-                                    action="hapus.php"
-                                    method="post"
-                                    class="form-hapus"
-                                    style="display: inline;">
-                                    <input
-                                        type="hidden"
-                                        name="id"
-                                        value="<?= (int) $anggota['id'] ?>">
+                                <?php if ($_SESSION['role'] === 'admin'): ?>
 
-                                    <button
-                                        type="submit"
-                                        class="btn-hapus">
-                                        Hapus
-                                    </button>
-                                </form>
+                                    <form
+                                        action="hapus.php"
+                                        method="post"
+                                        class="form-hapus"
+                                        style="display:inline;">
+
+                                        <input
+                                            type="hidden"
+                                            name="id"
+                                            value="<?= (int) $anggota['id'] ?>">
+
+                                        <button
+                                            type="submit"
+                                            class="btn-hapus">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
                             </td>
                         </tr>
-
                     <?php endforeach; ?>
-
                 <?php endif; ?>
             </tbody>
         </table>

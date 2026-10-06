@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // data anggota
 if (!isset($_SESSION['anggota'])) {
@@ -80,34 +82,62 @@ $base = $__rel === ''
     >
         &#9776;
     </button>
-    <nav>
-        <ul>
-            <li>
-                <a href="<?php echo $base; ?>index.php">
-                    Beranda
-                </a>
-            </li>
+<nav>
+    <ul>
+        <li>
+            <a href="<?php echo $base; ?>index.php">
+                Beranda
+            </a>
+        </li>
+
+        <?php if (isset($_SESSION['user_id'])): ?>
+
             <li>
                 <a href="<?php echo $base; ?>buku/list.php">
                     Daftar Buku
                 </a>
             </li>
+
             <li>
                 <a href="<?php echo $base; ?>buku/tambah.php">
                     Tambah Buku
                 </a>
             </li>
+
             <li>
                 <a href="<?php echo $base; ?>anggota/list.php">
                     Daftar Anggota
                 </a>
             </li>
+
             <li>
                 <a href="<?php echo $base; ?>anggota/tambah.php">
                     Tambah Anggota
                 </a>
             </li>
-        </ul>
-    </nav>
+
+            <li class="user-menu">
+                <span>
+                    👤 <?php echo htmlspecialchars($_SESSION['nama']); ?>
+                </span>
+            </li>
+
+            <li>
+                <a href="<?php echo $base; ?>auth/logout.php">
+                    Logout
+                </a>
+            </li>
+
+        <?php else: ?>
+
+            <li>
+                <a href="<?php echo $base; ?>auth/login.php">
+                    Login
+                </a>
+            </li>
+
+        <?php endif; ?>
+    </ul>
+</nav>
 </header>
 <main>

@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/../auth/auth.php';
 $page_title = "Tambah Buku";
 include __DIR__ . '/../includes/header.php';
 $flash = $_SESSION['flash'] ?? null;
