@@ -7,7 +7,7 @@ $user = getenv('DB_USER') ?: 'postgres';
 $pass = getenv('DB_PASSWORD');
 
 try {
-    if ($pass === false) {
+    if ($pass === false || $pass === '') {
         throw new RuntimeException(
             'Environment variable DB_PASSWORD belum diatur.'
         );
