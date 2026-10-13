@@ -2,7 +2,6 @@
 require __DIR__ . '/auth/auth.php';
 require __DIR__ . '/includes/koneksi.php';
 $page_title = "Beranda";
-include __DIR__ . '/includes/header.php';
 
 /* AMBIL JUMLAH DATA DARI DATABASE */
 $stmtBuku = $pdo->query("SELECT COUNT(*) FROM buku");
@@ -11,7 +10,16 @@ $totalBuku = $stmtBuku->fetchColumn();
 $stmtAnggota = $pdo->query("SELECT COUNT(*) FROM anggota");
 $totalAnggota = $stmtAnggota->fetchColumn();
 
+$stmtPeminjaman = $pdo->query("
+    SELECT COUNT(*)
+    FROM peminjaman
+    WHERE status = 'dipinjam'
+");
+$totalPeminjaman = $stmtPeminjaman->fetchColumn();
+
+include __DIR__ . '/includes/header.php';
 ?>
+
 <section>
     <h2>
         Selamat Datang di Sistem Perpustakaan Mini
@@ -25,7 +33,7 @@ $totalAnggota = $stmtAnggota->fetchColumn();
     <p>
         Selamat datang,
         <strong>
-            <?php echo htmlspecialchars($_SESSION['nama']); ?>
+            <?php echo htmlspecialchars($_SESSION['nama'] ?? 'Pengguna'); ?>
         </strong>.
     </p>
 </section>
@@ -35,21 +43,17 @@ $totalAnggota = $stmtAnggota->fetchColumn();
 
     <article>
         <h3>Total Buku</h3>
-        <p>
-            <?php echo $totalBuku; ?>
-        </p>
+        <p><?php echo $totalBuku; ?></p>
     </article>
 
     <article>
         <h3>Total Anggota</h3>
-        <p>
-            <?php echo $totalAnggota; ?>
-        </p>
+        <p><?php echo $totalAnggota; ?></p>
     </article>
 
     <article>
         <h3>Sedang Dipinjam</h3>
-        <p>0</p>
+        <p><?php echo $totalPeminjaman; ?></p>
     </article>
 </section>
 

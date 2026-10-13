@@ -419,4 +419,62 @@ form select {
 .user-menu span {
     font-weight: bold;
 }
+
+/* ===== Fitur Peminjaman ===== */
+
+form textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #ddcbd1;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+form textarea:focus {
+    outline: none;
+    border-color: #d98fa3;
+    box-shadow: 0 0 0 2px #fceef2;
+}
+
+form input[type="date"] {
+    max-width: 400px;
+}
+
+.btn-kembali {
+    display: inline-block;
+    background-color: #6b9e78;
+    color: #fff;
+    padding: 0.35rem 0.7rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn-kembali:hover {
+    background-color: #568363;
+}
+
+.status-dipinjam {
+    color: #b7791f;
+    font-weight: 600;
+}
+
+.status-dikembalikan {
+    color: #356044;
+    font-weight: 600;
+}
+
+/* ===== Responsif untuk Tabel Peminjaman ===== */
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table-responsive table {
+    min-width: 600px;
+}
 }
